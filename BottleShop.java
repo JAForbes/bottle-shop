@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 // Collection of Bottles
 public class BottleShop {
@@ -13,13 +15,18 @@ public class BottleShop {
         bottles = new ArrayList<Bottle>();
     }
 
-    public ArrayList<Bottle> sortBy( BiFunction<Bottle, Bottle, Integer> f){
-        ArrayList<Bottle> clone = new ArrayList<Bottle>(bottles);
-        clone.sort(f::apply);
-        return clone;
+    public List<Bottle> sortBy( BiFunction<Bottle, Bottle, Integer> f){
+
+        return bottles.stream()
+            .sorted(f::apply)
+            .collect(
+                Collectors.toList()
+            )
+        ;
+
     }
 
-    public ArrayList<Bottle> sortBy(SortProperties property){
+    public List<Bottle> sortBy(SortProperties property){
 
         return sortBy(
             property == SortProperties.BRAND

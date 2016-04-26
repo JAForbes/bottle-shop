@@ -1,0 +1,1 @@
+javac ../BottleShop.java && java -ea BottleShop
