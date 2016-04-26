@@ -17,6 +17,10 @@ public class Bottle {
         ;
     }
 
+    public Class<? extends Beer> getBrand(){
+        return beer.getClass();
+    }
+
     public int getQuantity(){
         return quantity;
     }
@@ -35,5 +39,17 @@ public class Bottle {
 
     public Double getPrice(){
         return price;
+    }
+
+    public String toString(){
+        return
+            "Bottle:{" +
+            beer +
+            ",price:" + price +
+            ",volume:" + volume +
+            ",quantity:" + quantity +
+            ",alcoholContent:" + alcoholContent +
+            "}"
+        ;
     }
 }

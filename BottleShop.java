@@ -41,10 +41,18 @@ public class BottleShop {
 
     }
 
-    public int getBrandCount(String brand){
+    public static void printInventory(List<Bottle> bottles){
+        String str = bottles.stream()
+            .map(bottle -> bottle.toString())
+            .collect(Collectors.joining("\n"))
+        ;
+        System.out.println(str);
+   }
+
+    public int getBrandCount(Class<? extends Beer> brand){
         return bottles.stream()
             .filter(
-                b -> b.getBrandName() == brand
+                b -> b.getBrand() == brand
             )
             .mapToInt( b -> b.getQuantity() )
             .sum()
@@ -63,6 +71,7 @@ public class BottleShop {
         return this;
     }
 
+
     // runs the program
     public static void main(String[] args){
         // Write a client program which uses the BottleShop collection
@@ -80,11 +89,22 @@ public class BottleShop {
             .getBrandName() == "Carlton"
         ;
 
+        System.out.println("Sort by Brand");
+        BottleShop.printInventory(
+             shop.sortBy( SortProperties.BRAND )
+        );
+
         assert shop
             .sortBy( SortProperties.STRENGTH )
             .get(0)
             .getStrength() == 3.0;
         ;
+
+        System.out.println("Sort by Strength");
+        BottleShop.printInventory(
+             shop.sortBy( SortProperties.STRENGTH )
+        );
+
 
         assert shop
             .sortBy( SortProperties.PRICE )
@@ -92,10 +112,15 @@ public class BottleShop {
             .getPrice() == 3.50
         ;
 
+        System.out.println("Sort by Price");
+        BottleShop.printInventory(
+             shop.sortBy( SortProperties.PRICE )
+        );
+
         // calculating the number of bottles of a given beer brand
 
         assert shop
-            .getBrandCount( "Duff" ) == 30
+            .getBrandCount( Duff.class ) == 30
         ;
 
         // price of the whole stock
@@ -111,6 +136,11 @@ public class BottleShop {
         //  and also standard methods (toString() etc).
         assert (new Lager()+"").equals(
             "Beer{brandName:Lager,strength:3.5}"
+        );
+
+        //  and also standard methods (toString() etc).
+        assert (new Bottle(new Lager(), 3.50, 350.0, 1 )+"" ).equals(
+            "Bottle:{Beer{brandName:Lager,strength:3.5},price:3.5,volume:350.0,quantity:1,alcoholContent:12.25}"
         );
 
         System.out.println("Everything is fine, everything is fine here.");
