@@ -1,46 +1,18 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 // Collection of Bottles
 public class BottleShop {
-
-    enum SortProperties { BRAND, PRICE, STRENGTH, COLOUR }
 
     private ArrayList<Bottle> bottles;
 
     // creates the bottleshop
     public BottleShop(){
         bottles = new ArrayList<Bottle>();
-    }
-
-    public List<Bottle> sortBy( BiFunction<Bottle, Bottle, Integer> f){
-
-        return bottles.stream()
-            .sorted(f::apply)
-            .collect(
-                Collectors.toList()
-            )
-        ;
-
-    }
-
-    public List<Bottle> sortBy(SortProperties property){
-
-        return sortBy(
-            property == SortProperties.BRAND
-                ? (b1,b2) -> b1.getBrandName().compareTo(b2.getBrandName())
-            : property == SortProperties.PRICE
-                ? (b1,b2) -> b1.getPrice().compareTo(b2.getPrice())
-            : property == SortProperties.STRENGTH
-                ? (b1,b2) -> b1.getStrength().compareTo(b2.getStrength())
-            : property == SortProperties.COLOUR
-                ? (b1,b2) -> b1.getGlassColour().compareTo(b2.getGlassColour())
-            :
-                (b1,b2) -> -1
-        );
-
     }
 
     public static void printBottles(List<Bottle> bottles){
@@ -74,6 +46,17 @@ public class BottleShop {
     }
 
 
+    public List<Bottle> sortBy( Function<Bottle, Comparable> f ){
+        return bottles.stream()
+            .sorted(
+                (b1, b2) -> f.apply(b1).compareTo( f.apply(b2) )
+            )
+            .collect(
+                Collectors.toList()
+            )
+        ;
+    }
+
     // runs the program
     public static void main(String[] args){
         // Write a client program which uses the BottleShop collection
@@ -86,48 +69,48 @@ public class BottleShop {
 
         // etc, etc, etc, let you practical fantasy flow...
         assert shop
-            .sortBy( SortProperties.BRAND )
+            .sortBy( Bottle::getBrandName )
             .get(0)
             .getBrandName() == "Carlton"
         ;
 
         System.out.println("Sort by Brand");
         BottleShop.printBottles(
-             shop.sortBy( SortProperties.BRAND )
+             shop.sortBy( Bottle::getBrandName )
         );
 
         assert shop
-            .sortBy( SortProperties.STRENGTH )
+            .sortBy( Bottle::getStrength )
             .get(0)
             .getStrength() == 3.0;
         ;
 
         System.out.println("Sort by Strength");
         BottleShop.printBottles(
-             shop.sortBy( SortProperties.STRENGTH )
+             shop.sortBy( Bottle::getStrength )
         );
 
 
         assert shop
-            .sortBy( SortProperties.PRICE )
+            .sortBy( Bottle::getPrice )
             .get(0)
             .getPrice() == 3.50
         ;
 
         System.out.println("Sort by Price");
         BottleShop.printBottles(
-             shop.sortBy( SortProperties.PRICE )
+             shop.sortBy( Bottle::getPrice )
         );
 
         assert shop
-            .sortBy( SortProperties.COLOUR )
+            .sortBy( Bottle::getGlassColour )
             .get(0)
             .getGlassColour() == Bottle.GlassColour.RED
         ;
 
         System.out.println("Sort by Color");
         BottleShop.printBottles(
-             shop.sortBy( SortProperties.COLOUR )
+             shop.sortBy( Bottle::getGlassColour )
         );
 
         // calculating the number of bottles of a given beer brand
