@@ -5,7 +5,8 @@ public class Bottle {
     private double volume;
     private double alcoholContent;
     private int quantity;
-    private static enum glassColor { GREEN, RED, BLUE };
+    public static enum GlassColour { RED, BLUE, GREEN };
+    private GlassColour glassColour = GlassColour.GREEN;
 
     public Bottle(Beer beer, double price, double volume, int quantity){
         this.beer = beer;
@@ -17,8 +18,17 @@ public class Bottle {
         ;
     }
 
+    public Bottle(Beer beer, double price, double volume, int quantity, GlassColour glassColour){
+        this(beer, price, volume, quantity);
+        this.glassColour = glassColour;
+    }
+
     public Class<? extends Beer> getBrand(){
         return beer.getClass();
+    }
+
+    public GlassColour getGlassColour(){
+        return glassColour;
     }
 
     public int getQuantity(){

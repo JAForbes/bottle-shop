@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 // Collection of Bottles
 public class BottleShop {
 
-    enum SortProperties { BRAND, PRICE, STRENGTH }
+    enum SortProperties { BRAND, PRICE, STRENGTH, COLOUR }
 
     private ArrayList<Bottle> bottles;
 
@@ -35,13 +35,15 @@ public class BottleShop {
                 ? (b1,b2) -> b1.getPrice().compareTo(b2.getPrice())
             : property == SortProperties.STRENGTH
                 ? (b1,b2) -> b1.getStrength().compareTo(b2.getStrength())
+            : property == SortProperties.COLOUR
+                ? (b1,b2) -> b1.getGlassColour().compareTo(b2.getGlassColour())
             :
                 (b1,b2) -> -1
         );
 
     }
 
-    public static void printInventory(List<Bottle> bottles){
+    public static void printBottles(List<Bottle> bottles){
         String str = bottles.stream()
             .map(bottle -> bottle.toString())
             .collect(Collectors.joining("\n"))
@@ -79,7 +81,7 @@ public class BottleShop {
         BottleShop shop = new BottleShop()
             .add( new Bottle( new Lager(), 3.50, 350.0, 10) )
             .add( new Bottle( new Duff(), 7.50, 500.0, 30) )
-            .add( new Bottle( new Carlton(), 4.50, 450.0, 20) )
+            .add( new Bottle( new Carlton(), 4.50, 450.0, 20, Bottle.GlassColour.RED) )
         ;
 
         // etc, etc, etc, let you practical fantasy flow...
@@ -90,7 +92,7 @@ public class BottleShop {
         ;
 
         System.out.println("Sort by Brand");
-        BottleShop.printInventory(
+        BottleShop.printBottles(
              shop.sortBy( SortProperties.BRAND )
         );
 
@@ -101,7 +103,7 @@ public class BottleShop {
         ;
 
         System.out.println("Sort by Strength");
-        BottleShop.printInventory(
+        BottleShop.printBottles(
              shop.sortBy( SortProperties.STRENGTH )
         );
 
@@ -113,8 +115,19 @@ public class BottleShop {
         ;
 
         System.out.println("Sort by Price");
-        BottleShop.printInventory(
+        BottleShop.printBottles(
              shop.sortBy( SortProperties.PRICE )
+        );
+
+        assert shop
+            .sortBy( SortProperties.COLOUR )
+            .get(0)
+            .getGlassColour() == Bottle.GlassColour.RED
+        ;
+
+        System.out.println("Sort by Color");
+        BottleShop.printBottles(
+             shop.sortBy( SortProperties.COLOUR )
         );
 
         // calculating the number of bottles of a given beer brand
@@ -142,8 +155,5 @@ public class BottleShop {
         assert (new Bottle(new Lager(), 3.50, 350.0, 1 )+"" ).equals(
             "Bottle:{Beer{brandName:Lager,strength:3.5},price:3.5,volume:350.0,quantity:1,alcoholContent:12.25}"
         );
-
-        System.out.println("Everything is fine, everything is fine here.");
-        System.out.println("How are you?");
     }
 }
