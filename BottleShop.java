@@ -66,7 +66,7 @@ public class BottleShop {
         assert shop
             .sortBy( SortProperties.STRENGTH )
             .get(0)
-            .getStrength() == 4;
+            .getStrength() == Strength.LIGHT;
         ;
 
         assert shop
@@ -75,6 +75,7 @@ public class BottleShop {
             .getPrice() == 3.50
         ;
 
-        System.out.println("Everything is working fine");
+        System.out.println("Everything is fine, everything is fine here.");
+        System.out.println("How are you?");
     }
 }

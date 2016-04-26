@@ -4,7 +4,6 @@ public class Bottle {
     private double price;
     private double volume;
 
-
     public Bottle(Beer beer, double price){
         this.beer = beer;
         this.price = price;
@@ -14,7 +13,7 @@ public class Bottle {
         return beer.getBrandName();
     }
 
-    public Double getStrength(){
+    public Strength getStrength(){
         return beer.getStrength();
     }
 

@@ -1,18 +1,18 @@
 public class Beer {
 
     private String brandName;
-    private double strength;
+    private Strength strength;
 
-    Beer(String brandName, double strength){
+    Beer(String brandName, Strength strength){
         this.brandName = brandName;
         this.strength = strength;
     }
 
-    double getStrength(){
+    public Strength getStrength(){
         return this.strength;
     }
 
-    String getBrandName(){
+    public String getBrandName(){
         return this.brandName;
     }
 }
